@@ -41,7 +41,7 @@ while true;do
 			echo "配給担当までお問い合わせを" >&p
 			item=""
 		else
-			./withdrawal.sh "$amount" "$user" "$username"
+			sudo ./withdrawal.sh "$amount" "$user" "$username"
 			exit_status=$?
 			echo $exit_status
 			balance=`./getbalance.sh $user`
