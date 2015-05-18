@@ -1,4 +1,3 @@
 #!/bin/bash
 
-read barcode 
-grep $barcode item.csv | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' '{print $4}'
+grep $1 item.csv | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' '{print $4}'
