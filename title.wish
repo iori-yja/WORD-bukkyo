@@ -8,7 +8,7 @@ canvas .c -width 640 -height 480
 label .l1 -textvariable userid
 label .l2 -textvariable username
 entry .e1 -textvariable item
-button .b1 -text "Bye" -command "exit"
+button .b1 -text "exit" -command "exit"
 bind .e1 <Key-Return> {
 	puts $item
 	set item ""
