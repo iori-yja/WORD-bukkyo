@@ -1,36 +1,42 @@
-#!/bin/wish
+#!/usr/bin/wish
 
 package require Tclx
 
 set background white
 
+wm geometry . "1280x1024"
+. configure -bg #fff
 frame .f -background white
 image create photo im -file "img/bukkyo.png"
-canvas .c -width 640 -height 80 -background white
-.c create image 320 40 -image im
-label .l1 -textvariable userid -height 1 -font {-size 24}
-label .l2 -textvariable username -height 2 -font {size 32}
+canvas .c -width 1280 -background #fff -borderwidth 0 -highlightthickness 0
+.c create image 640 100 -image im
+label .l1 -textvariable userid -height 1 -font {{MMCedar} 24} -background #fff -borderwidth 0 -highlightthickness 0
+label .l2 -textvariable username -height 2 -font {{MMcedar} 32} -background #fff -borderwidth 0 -highlightthickness 0
+label .l3 -textvariable balance -height 2 -font {{MMcedar} 20} -background #fff -borderwidth 0 -highlightthickness 0
 entry .e1 -textvariable item
 button .b1 -text "exit" -command "exit"
 bind .e1 <Key-Return> {
 	puts $item
 	set item ""
 }
-pack .f .c .l1 .l2 .e1 .b1
+pack .f .c .l1 .l2 .l3 .e1 .b1
 raise .
 focus .e1
 
 set userid ""
 set username ""
+set balance ""
 
 proc writename {} {
 	gets stdin ::userid
 	gets stdin ::username
+	gets stdin ::balance
 }
 
 proc clearname {} {
-	set ::userid " "
-	set ::username " "
+	set ::userid ""
+	set ::username ""
+	set ::balance ""
 }
 
 signal trap USR1 writename 
