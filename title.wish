@@ -8,8 +8,8 @@ frame .f -background white
 image create photo im -file "bukkyo.png"
 canvas .c -width 640 -height 80 -background white
 .c create image 320 40 -image im
-label .l1 -textvariable userid
-label .l2 -textvariable username
+label .l1 -textvariable userid -height 1 -font {-size 24}
+label .l2 -textvariable username -height 2 -font {size 32}
 entry .e1 -textvariable item
 button .b1 -text "exit" -command "exit"
 bind .e1 <Key-Return> {
