@@ -3,6 +3,6 @@
 read user
 read item
 
-amount=./searchitem.sh $item
+amount=`./searchitem.sh $item`
 ./withdrawal.sh $amount $user
 
