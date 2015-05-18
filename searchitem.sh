@@ -1,3 +1,11 @@
 #!/bin/bash
 
-grep $1 item.csv | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' '{print $4}'
+price=`grep $1 item.csv | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' '{print $4}'`
+
+if [ $price ]; then
+	echo $price
+	exit 0
+else
+	exit 1
+fi
+

@@ -23,7 +23,7 @@ echo $balance
 newbalance=`expr $balance - \( $1 \)`
 echo $newbalance
 
-if [ $newbalance -gt 0 ]; then
+if [ $newbalance -ge 0 ]; then
 	next=`echo $current | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' -e '{print $1 "," $2 "," $3 ",'$newbalance'," $5 "," $6 "," $7 }'`
 	echo `date` ": s/"$current"/"$next"/" >> sed.log
 	sed -i -e "s/"$current"/"$next"/" user.csv
