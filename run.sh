@@ -32,7 +32,9 @@ while true;do
 	if [ $item ];then
 		amount=`./searchitem.sh $item`
 		./withdrawal.sh "$amount" "$user" "$username"
-		if [ ! $? ]; then
+		exit_status=$?
+		echo $exit_status
+		if [ $exit_status = 0 ]; then
 			kill -USR1 $guicpid
 			echo "$item, $username"
 			echo "Thank you!"

@@ -29,6 +29,6 @@ if [ $newbalance -gt 0 ]; then
 	sed -i -e "s/"$current"/"$next"/" user.csv
 	exit 0
 else
-	exit -1
+	exit 1
 fi
 
