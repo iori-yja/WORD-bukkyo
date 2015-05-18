@@ -2,7 +2,7 @@
 
 # comannd amount user
 
-current=`grep $2 user.csv`
+current=`grep "$2" user.csv`
 balance=`echo $current | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' -e '{print $4}'`
 echo $balance
 newbalance=`expr $balance - \( $1 \)`

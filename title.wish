@@ -1,19 +1,35 @@
 #!/bin/wish
 
-set userid [lindex $argv 0]
-set username [lindex $argv 1]
+package require Tclx
 
 image create photo im -file "bukkyo.png"
 canvas .c -width 640 -height 480
 .c create image 320 240 -image im
-label .l1 -text $userid
-label .l2 -text $username
+label .l1 -textvariable userid
+label .l2 -textvariable username
 entry .e1 -textvariable item
 button .b1 -text "Bye" -command "exit"
 bind .e1 <Key-Return> {
 	puts $item
+	set item ""
 }
 pack .c .l1 .l2 .e1 .b1
 raise .
 focus .e1
+
+set userid "20xx11zzz"
+set username "maririso"
+
+proc writename {} {
+	gets stdin ::userid
+	gets stdin ::username
+}
+
+proc clearname {} {
+	set ::userid " "
+	set ::username " "
+}
+
+signal trap USR1 writename 
+signal trap USR2 clearname 
 
