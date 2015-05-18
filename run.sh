@@ -10,13 +10,14 @@ echo $guicpid
 
 while true;do
 	while [ ! "$fdump" ]; do
-		fdump=`felica_dump`
+		fdump=`timeout 2 felica_dump`
 	done
 
 
 	username=`echo "$fdump" | grep "0040:0003:" | sed -e "s/^.*0040:0003:\([A-Z,0-9]*\)$/\1/"|./hex2bin|nkf`
 	userid=`echo "$fdump" | grep "0040:0000:" | sed -e "s/^.*0040:0000:\([A-Z,0-9]*\)$/\1/"|./hex2bin|nkf`
 	user=`expr $userid / 100000 - 1000000000`
+
 
 	if [ "$olduser" != "$user" ]; then
 		kill -USR1 $guicpid
@@ -28,16 +29,28 @@ while true;do
 	fi
 
 	olduser=$user
-	read -t 3 item <&p
+	read -t 1 item <&p
 
 	if [ $item ];then
 		amount=`./searchitem.sh $item`
 		./withdrawal.sh "$amount" "$user"
-		echo "$item, $username"
-		echo "Thank you!"
-		item=""
+		if [ $? ]; then
+			kill -USR1 $guicpid
+			echo "$item, $username"
+			echo "Thank you!"
+			echo "$item, $username" >&p
+			echo "Thank you!" >&p
+			item=""
+		else
+			kill -USR1 $guicpid
+			echo "$item, $username"
+			echo "\"金が足りねえぞクソ\" Exception"
+			echo "$item, $username" >&p
+			echo "\"金が足りねえぞクソ\" Exception" >&p
+			item=""
+		fi
 	else
-		fdump=`felica_dump`
+		fdump=`timeout 2 felica_dump`
 		if [ "$fdump" ];then
 			continue;
 		else
