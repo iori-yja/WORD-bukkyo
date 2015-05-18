@@ -12,7 +12,6 @@ main(void)
 
 	for (int i = 0; i < 16; i++) {
 		fgets(input, 3, stdin);
-		puts(input);
 		c = 0;
 		c = (char) strtol(input, NULL, 16);
 		buf[i] = c;
