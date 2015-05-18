@@ -5,7 +5,7 @@ package require Tclx
 set background white
 
 frame .f -background white
-image create photo im -file "bukkyo.png"
+image create photo im -file "img/bukkyo.png"
 canvas .c -width 640 -height 80 -background white
 .c create image 320 40 -image im
 label .l1 -textvariable userid -height 1 -font {-size 24}
