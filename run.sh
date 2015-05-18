@@ -1,6 +1,5 @@
 #!/bin/zsh
 
-
 olduser=""
 
 coproc "./title.wish"
@@ -12,7 +11,6 @@ while true;do
 	while [ ! "$fdump" ]; do
 		fdump=`timeout 2 felica_dump`
 	done
-
 
 	username=`echo "$fdump" | grep "0040:0003:" | sed -e "s/^.*0040:0003:\([A-Z,0-9]*\)$/\1/"|./hex2bin|nkf`
 	userid=`echo "$fdump" | grep "0040:0000:" | sed -e "s/^.*0040:0000:\([A-Z,0-9]*\)$/\1/"|./hex2bin|nkf`
@@ -34,7 +32,7 @@ while true;do
 	if [ $item ];then
 		amount=`./searchitem.sh $item`
 		./withdrawal.sh "$amount" "$user" "$username"
-		if [ $? ]; then
+		if [ ! $? ]; then
 			kill -USR1 $guicpid
 			echo "$item, $username"
 			echo "Thank you!"
