@@ -19,13 +19,14 @@ while true;do
 	fi
 
 	olduser=$user
-	read -t 1 item
+	read -t 3 item
 
 	if [ $item ];then
 		amount=`./searchitem.sh $item`
 		./withdrawal.sh $amount $user
 		echo "$item, $username"
 		echo "Thank you!"
+		item=""
 	else
 		fdump=`felica_dump`
 		if [ "$fdump" ];then

@@ -1,6 +1,19 @@
 #!/bin/wish
+
+set userid [lindex $argv 0]
+set username [lindex $argv 1]
+
 image create photo im -file "bukkyo.png"
 canvas .c -width 640 -height 480
 .c create image 320 240 -image im
-button .b -text "Bye" -command "exit"
-pack .c .b
+label .l1 -text $userid
+label .l2 -text $username
+entry .e1 -textvariable item
+button .b1 -text "Bye" -command "exit"
+bind .e1 <Key-Return> {
+	puts $item
+}
+pack .c .l1 .l2 .e1 .b1
+raise .
+focus .e1
+
