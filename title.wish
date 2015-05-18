@@ -1,0 +1,6 @@
+#!/bin/wish
+image create photo im -file "bukkyo.png"
+canvas .c -width 640 -height 480
+.c create image 320 240 -image im
+button .b -text "Bye" -command "exit"
+pack .c .b
