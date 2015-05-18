@@ -1,8 +1,23 @@
-#!/bin/bash
+#!/bin/zsh
 
 # comannd amount user
+function add_user () {
+	newid=`tail -1 $USERDB|gawk -v FPAT='([^,]+)|(\"[^\"]+\")' -e '{print $1}'`
+	echo "$newid"
+	newid=`expr $newid + 1`
+	echo "$newid,$1,\"$2\",0,0,0,0" >> $USERDB
+}
 
-current=`grep "$2" user.csv`
+USERDB="user.csv"
+current=`grep "$2" $USERDB`
+AWKOPT=""
+
+echo $current
+if [ ! $current ]; then
+	add_user $2 "$3"
+	current=`grep "$2" $USERDB`
+fi
+
 balance=`echo $current | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' -e '{print $4}'`
 echo $balance
 newbalance=`expr $balance - \( $1 \)`
@@ -16,5 +31,4 @@ if [ $newbalance -gt 0 ]; then
 else
 	exit -1
 fi
-
 
