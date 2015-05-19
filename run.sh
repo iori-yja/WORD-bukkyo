@@ -101,10 +101,10 @@ while true;do
 				kill -USR2 $guicpid
 				itemname=`getitemname $item`
 				sleep 0.1
-				echo "$item, $username"
+				echo "$itemname, $username"
 				echo $balance
 				echo "\"金が足りねえぞクソ\" Exception"
-				echo "$item, $username" >&p
+				echo "$itemname, $username" >&p
 				echo "\"金が足りねえぞクソ\" Exception" >&p
 				post_slack "@maririso speech $username はお金がなくて $itemname を買えませんでした"
 				echo $balance >&p
