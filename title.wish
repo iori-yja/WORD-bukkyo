@@ -4,9 +4,8 @@ package require Tclx
 
 set background white
 
-wm geometry . "1280x1024"
+wm geometry . "1280x400"
 . configure -bg #fff
-
 
 #frame .f0
 #frame .f1
@@ -18,7 +17,7 @@ image create photo im -file "img/bukkyo.png"
 image create photo bg -file "img/backgroundDefault.png"
 canvas .c -width 1280 -height 1024 -background #fff -borderwidth 0 -highlightthickness 0
 .c create image 640 100 -image im 
-.c create image 640 512 -image bg
+.c create image 640 512  -image bg
 #pack .c
 pack .c
 
@@ -35,6 +34,7 @@ entry .barcode -textvariable item
 button .buttonexit -text "exit" -command "exec killall xinit"
 bind .barcode <Key-Return> {
 	puts $item
+	exec kill -USR1 [lindex $argv 0]
 	set item ""
 }
 

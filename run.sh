@@ -1,5 +1,11 @@
 #!/bin/zsh
 
+function barcodereader_listener () {
+	item=""
+	read -t 1 item <&p
+	echo $item
+}
+
 function getitemname () {
 	local itemname=`grep $1 item.csv | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' '{print $3}'`
 	if [ $itemname ]; then
@@ -10,23 +16,42 @@ function getitemname () {
 	fi
 }
 
-function posting_slack () {
+function post_slack () {
 	local slackurl="https://hooks.slack.com/services/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"
 	curl -X POST --data-urlencode 'payload={"text": "'$1'"}' $slackurl &
 	echo posting to slack..
 }
 
+function no_item_found () {
+# no_item_found UI's pid item username
+	kill -USR2 $1
+	sleep 0.1
+	echo "$2, $3" >&p
+	echo "ありゃりゃ？商品が見つからないよ？" >&p
+	echo "配給担当までお問い合わせを" >&p
+	kill -USR1 $1
+}
+
 olduser=""
 
-coproc "./title.wish"
+coproc "./title.wish" $$
 guicpid=`ps | grep "title.wish" | awk '{print $1}'`
 fdump=""
 echo $guicpid
+
+trap barcodereader_listener USR1
 
 while true;do
 	# Waiting for felica card
 	while [ ! "$fdump" ]; do
 		fdump=`timeout 2 felica_dump`
+		if [ "$fdump" = "error" ]; then
+			msg="No card Reader found"
+			echo msg >&p
+			echo msg >&p
+			echo msg >&p
+			sleep 120
+		fi
 	done
 
 	username=`echo "$fdump" | grep "0040:0003:" | sed -e "s/^.*0040:0003:\([A-Z,0-9]*\)$/\1/"|./hex2bin|nkf -Sw`
@@ -46,19 +71,13 @@ while true;do
 	fi
 
 	olduser=$user
-	read -t 1 item <&p
 
 	if [ $item ];then
 		#if barcode is input
 		amount=`./searchitem.sh $item`
 		exit_status=$?
 		if [ $exit_status != 0 ]; then
-			kill -USR2 $guicpid
-			sleep 0.1
-			echo "$item, $username" >&p
-			echo "ありゃりゃ？商品が見つからないよ？" >&p
-			echo "配給担当までお問い合わせを" >&p
-			kill -USR1 $guicpid
+			no_item_found $guicpid $item $username
 			item=""
 		else
 			sudo ./withdrawal.sh "$amount" "$user" "$username"
