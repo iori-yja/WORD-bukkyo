@@ -99,6 +99,7 @@ while true;do
 				item=""
 			else
 				kill -USR2 $guicpid
+				itemname=`getitemname $item`
 				sleep 0.1
 				echo "$item, $username"
 				echo $balance
