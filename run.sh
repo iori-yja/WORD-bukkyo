@@ -71,6 +71,7 @@ while true;do
 				sleep 0.1
 				echo "$item, $username"
 				echo "Thank you!"
+				echo $balance
 				echo "$item, $username" >&p
 				echo "Thank you!" >&p
 				echo $balance >&p
@@ -81,6 +82,7 @@ while true;do
 				kill -USR2 $guicpid
 				sleep 0.1
 				echo "$item, $username"
+				echo $balance
 				echo "\"金が足りねえぞクソ\" Exception"
 				echo "$item, $username" >&p
 				echo "\"金が足りねえぞクソ\" Exception" >&p
