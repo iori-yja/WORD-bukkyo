@@ -49,6 +49,7 @@ while true;do
 				kill -USR1 $guicpid
 				echo "$item, $username"
 				echo "Thank you!"
+				echo $balance
 				echo "$item, $username" >&p
 				echo "Thank you!" >&p
 				echo $balance >&p
@@ -56,6 +57,7 @@ while true;do
 			else
 				kill -USR1 $guicpid
 				echo "$item, $username"
+				echo $balance
 				echo "\"金が足りねえぞクソ\" Exception"
 				echo "$item, $username" >&p
 				echo "\"金が足りねえぞクソ\" Exception" >&p
