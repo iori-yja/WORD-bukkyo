@@ -1,36 +1,67 @@
-#!/bin/wish
+#!/usr/bin/wish
 
 package require Tclx
 
 set background white
 
-frame .f -background white
+wm geometry . "1280x1024"
+. configure -bg #fff
+
+
+#frame .f0
+#frame .f1
+#frame .f2
+#frame .f3
+#frame .f4
+
 image create photo im -file "img/bukkyo.png"
-canvas .c -width 640 -height 80 -background white
-.c create image 320 40 -image im
-label .l1 -textvariable userid -height 1 -font {-size 24}
-label .l2 -textvariable username -height 2 -font {size 32}
-entry .e1 -textvariable item
-button .b1 -text "exit" -command "exit"
-bind .e1 <Key-Return> {
+image create photo bg -file "img/backgroundDefault.png"
+canvas .c -width 1280 -height 1024 -background #fff -borderwidth 0 -highlightthickness 0
+.c create image 640 100 -image im 
+.c create image 640 512 -image bg
+#pack .c
+pack .c
+
+#canvas .f1.g -width 1280 -background #fff -borderwidth 0 -highlightthickness 0
+#.f1.g create image 1280 924 -image bg
+
+frame .f2 
+label .l1 -textvariable userid -height 1 -font {{MMCedar} 24} -background #fff -borderwidth 0 -highlightthickness 0
+label .l2 -textvariable username -height 2 -font {{MMcedar} 32} -background #fff -borderwidth 0 -highlightthickness 0
+label .l3 -textvariable balance -height 2 -font {{MMcedar} 20} -background #fff -borderwidth 0 -highlightthickness 0
+pack .l1 .l2 .l3 -in .f2
+
+entry .barcode -textvariable item
+button .buttonexit -text "exit" -command "exec killall xinit"
+bind .barcode <Key-Return> {
 	puts $item
 	set item ""
 }
-pack .f .c .l1 .l2 .e1 .b1
+
+#pack .f3.e1 
+#pack .f4.b1
+#pack .c .l1 .l2 .l3 .e1 .b1
+.c create window 640 812 -window .f2 -width 1280 -height 250
+.c create window 640 300 -window .barcode -width 300 -height 40
+.c create window 1000 200 -window .buttonexit -width 100 -height 40
 raise .
-focus .e1
+focus .barcode
 
 set userid ""
 set username ""
+set balance ""
+set dum ""
 
 proc writename {} {
 	gets stdin ::userid
 	gets stdin ::username
+	gets stdin ::balance
 }
 
 proc clearname {} {
-	set ::userid " "
-	set ::username " "
+	set ::userid ""
+	set ::username ""
+	set ::balance ""
 }
 
 signal trap USR1 writename 
