@@ -28,12 +28,11 @@ pack .c
 frame .f2 
 label .l1 -textvariable userid -height 1 -font {{MMCedar} 24} -background #fff -borderwidth 0 -highlightthickness 0
 label .l2 -textvariable username -height 2 -font {{MMcedar} 32} -background #fff -borderwidth 0 -highlightthickness 0
-label .l3 -textvariable balance -height 2 -font {{MMCedar} 24} -background #fff -borderwidth 0 -highlightthickness 0
+label .l3 -textvariable balance -height 2 -font {{MMcedar} 20} -background #fff -borderwidth 0 -highlightthickness 0
 pack .l1 .l2 .l3 -in .f2
 
 entry .barcode -textvariable item
-button .buttonexit -text "exit" -command "exit"
-
+button .buttonexit -text "exit" -command "exec killall xinit"
 bind .barcode <Key-Return> {
 	puts $item
 	set item ""
@@ -51,6 +50,7 @@ focus .barcode
 set userid ""
 set username ""
 set balance ""
+set dum ""
 
 proc writename {} {
 	gets stdin ::userid
