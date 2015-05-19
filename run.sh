@@ -86,16 +86,16 @@ while true;do
 			balance=`./getbalance.sh $user`
 			if [ $exit_status = 0 ]; then
 				kill -USR2 $guicpid
-				itemname=`getitemname`
+				itemname=`getitemname $item`
 				sleep 0.1
-				echo "$item, $username"
+				echo "$itemname, $username"
 				echo "Thank you!"
 				echo $balance
-				echo "$item, $username" >&p
+				echo "$itemname, $username" >&p
+				post_slack "@maririso speech $username が $itemname を買いました"
 				echo "Thank you!" >&p
 				echo $balance >&p
 				kill -USR1 $guicpid
-				posting_slack "maririso speech $username が $itemname を買いました"
 				item=""
 			else
 				kill -USR2 $guicpid
@@ -105,6 +105,7 @@ while true;do
 				echo "\"金が足りねえぞクソ\" Exception"
 				echo "$item, $username" >&p
 				echo "\"金が足りねえぞクソ\" Exception" >&p
+				post_slack "@maririso speech $username はお金がなくて $itemname を買えませんでした"
 				echo $balance >&p
 				kill -USR1 $guicpid
 				item=""
