@@ -35,6 +35,7 @@ while true;do
 		amount=`./searchitem.sh $item`
 		exit_status=$?
 		if [ $exit_status != 0 ]; then
+			kill -USR2 $guicpid
 			kill -USR1 $guicpid
 			echo "$item, $username" >&p
 			echo "ありゃりゃ？商品が見つからないよ？" >&p
@@ -46,6 +47,7 @@ while true;do
 			echo $exit_status
 			balance=`./getbalance.sh $user`
 			if [ $exit_status = 0 ]; then
+				kill -USR2 $guicpid
 				kill -USR1 $guicpid
 				echo "$item, $username"
 				echo "Thank you!"
@@ -54,6 +56,7 @@ while true;do
 				echo $balance >&p
 				item=""
 			else
+				kill -USR2 $guicpid
 				kill -USR1 $guicpid
 				echo "$item, $username"
 				echo "\"金が足りねえぞクソ\" Exception"

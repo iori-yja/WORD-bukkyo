@@ -14,7 +14,7 @@ label .l1 -textvariable userid -height 1 -font {{MMCedar} 24} -background #fff -
 label .l2 -textvariable username -height 2 -font {{MMcedar} 32} -background #fff -borderwidth 0 -highlightthickness 0
 label .l3 -textvariable balance -height 2 -font {{MMcedar} 20} -background #fff -borderwidth 0 -highlightthickness 0
 entry .e1 -textvariable item
-button .b1 -text "exit" -command "exit"
+button .b1 -text "exit" -command "killall xinit"
 bind .e1 <Key-Return> {
 	puts $item
 	set item ""
@@ -26,6 +26,7 @@ focus .e1
 set userid ""
 set username ""
 set balance ""
+set dum ""
 
 proc writename {} {
 	gets stdin ::userid
