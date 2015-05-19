@@ -4,7 +4,7 @@ package require Tclx
 
 set background white
 
-wm geometry . "1280x400"
+wm geometry . "1280x1024"
 . configure -bg #fff
 
 #frame .f0
