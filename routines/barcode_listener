@@ -1,18 +1,31 @@
 item=""
 read -t 1 item <&p
 item=`echo $item|sed '/^[0-9]*$/ p; d'`
-echo "$item"
-if [ $fdump ]; then
-	try_withdrawal
+
+if [ ! "$item" ]; then
+	echo "invalid input"
+	kill -USR2 $guicpid
+	sleep 0.1
+	echo "Barcode error." >&p
+	echo "Invalid input." >&p
+	echo "abort." >&p
+	kill -USR1 $guicpid
+	sleep 1
 else
-	price=`search_item "$item"`
-	exit_status=$?
-	if [ $exit_status != 0 ]; then
-		no_item_found $guicpid "$item" " "
-		item=""
+	echo "$item"
+	if [ $fdump ]; then
+		try_withdrawal
 	else
-		itemname=`get_itemname "$item"`
-		check_itemprice $guicpid $price "$itemname"
+		price=`search_item "$item"`
+		exit_status=$?
+		if [ $exit_status != 0 ]; then
+			no_item_found $guicpid "$item" " "
+			item=""
+		else
+			itemname=`get_itemname "$item"`
+			check_itemprice $guicpid $price "$itemname"
+		fi
 	fi
+	item=""
 fi
-item=""
+

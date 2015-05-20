@@ -51,6 +51,7 @@ while true;do
 	elif [ "$fdump" = "error" ]; then
 		msg="No card Reader found"
 		kill -USR2 $guicpid
+		sleep 0.1
 		echo $msg >&p
 		echo $msg >&p
 		echo $msg >&p
