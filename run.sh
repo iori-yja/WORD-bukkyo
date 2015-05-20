@@ -82,18 +82,19 @@ function try_withdrawal () {
 function barcodereader_listener () {
 	item=""
 	read -t 1 item <&p
-	echo $item
+	item=`echo $item|sed '/^[0-9]*$/ p; d'`
+	echo "$item"
 	if [ $fdump ]; then
 		try_withdrawal
 	else
-		price=`./searchitem.sh $item`
+		price=`./searchitem.sh "$item"`
 		exit_status=$?
 		if [ $exit_status != 0 ]; then
-			no_item_found $guicpid $item " "
+			no_item_found $guicpid "$item" " "
 			item=""
 		else
-			itemname=`getitemname $item`
-			check_itemprice $guicpid $price $itemname
+			itemname=`getitemname "$item"`
+			check_itemprice $guicpid $price "$itemname"
 		fi
 	fi
 	item=""
