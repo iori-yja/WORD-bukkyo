@@ -21,9 +21,10 @@ fpath=(./routines)
 autoload -U get_balance
 autoload -U search_item
 autoload -U get_itemname
+
 autoload -U check_itemprice
 autoload -U try_withdrawal
-autoload -U barcodereader_listener
+autoload -U barcode_listener
 
 olduser=""
 
