@@ -11,7 +11,7 @@ function getitemname () {
 }
 
 function post_slack () {
-	curl -X POST --data-urlencode 'payload={"channel": "#slabot", "text": "'$1'"}' "$slackurl" &
+	curl "$slackurl`echo $1| nkf -wMQ | sed 's/=$//g' | tr = % | tr -d "\n"`" &
 	echo posting to slack..
 }
 
@@ -23,6 +23,7 @@ function no_item_found () {
 	echo "ありゃりゃ？商品が見つからないよ？" >&p
 	echo "配給担当までお問い合わせを" >&p
 	kill -USR1 $1
+	sleep 3
 }
 
 function check_itemprice () {
@@ -154,4 +155,5 @@ while true;do
 	fi
 
 done
+
 
