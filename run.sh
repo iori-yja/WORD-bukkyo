@@ -11,8 +11,7 @@ function getitemname () {
 }
 
 function post_slack () {
-	local slackurl="https://hooks.slack.com/services/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"
-	curl -X POST --data-urlencode 'payload={"channel": "#slabot", "text": "'$1'"}' $slackurl &
+	curl -X POST --data-urlencode 'payload={"channel": "#slabot", "text": "'$1'"}' "$slackurl" &
 	echo posting to slack..
 }
 
@@ -102,10 +101,14 @@ function barcodereader_listener () {
 
 olduser=""
 
+killall -9 title.wish
 coproc "./title.wish" $$
-guicpid=`ps | grep "title.wish" | awk '{print $1}'`
+guicpid=`ps | grep "title.wish" | awk '{print $1}' | head -1`
+
 fdump=""
 echo $guicpid
+
+slackurl=`grep "slackurl:" ../bukkyo.conf| head -1 |awk '{print $2}'`
 
 sleep 1
 
