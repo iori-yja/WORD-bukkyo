@@ -1,5 +1,3 @@
-#!/bin/zsh
-
 USERDB="user.csv"
 current=`grep "$1" $USERDB`
 

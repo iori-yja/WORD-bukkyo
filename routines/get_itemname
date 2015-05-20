@@ -1,0 +1,8 @@
+local itemname=`grep $1 item.csv | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' '{print $3}'`
+if [ $itemname ]; then
+	echo $itemname
+	exit 0
+else
+	exit 1
+fi
+
