@@ -12,7 +12,7 @@ function getitemname () {
 
 function post_slack () {
 	local slackurl="https://hooks.slack.com/services/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"
-	curl -X POST --data-urlencode 'payload={"text": "'$1'"}' $slackurl &
+	curl -X POST --data-urlencode 'payload={"channel": "#slabot", "text": "'$1'"}' $slackurl &
 	echo posting to slack..
 }
 
@@ -40,8 +40,8 @@ function check_itemprice () {
 }
 
 function try_withdrawal () {
-	price=`./searchitem.sh $item`
-	exit_status=$?
+	local price=`./searchitem.sh $item`
+	local exit_status=$?
 	if [ $exit_status != 0 ]; then
 		no_item_found $guicpid $item $username
 		item=""
