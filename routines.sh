@@ -106,8 +106,8 @@ function search_item () {
 
 function try_withdrawal () {
 	local price
-	price=$(search_item "${item}")
 	local exit_status
+	price=$(search_item "${item}")
 	exit_status="${?}"
 	if [ "${exit_status}" != 0 ]; then
 		no_item_found "${guicpid}" "${item}" "${username}"
