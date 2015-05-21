@@ -11,6 +11,7 @@ if [ ! "$item" ]; then
 	echo "abort." >&p
 	kill -USR1 $guicpid
 	sleep 1
+	exit 1
 else
 	echo "$item"
 	if [ $fdump ]; then
