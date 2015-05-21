@@ -3,11 +3,13 @@
 package require Tclx
 
 set background white
+set logfp [open "log.wish" w+]
 
 proc writename {} {
 	gets stdin ::userid
 	gets stdin ::username
 	gets stdin ::balance
+	puts $logfp "hoge"
 }
 
 proc clearname {} {
