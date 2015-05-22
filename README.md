@@ -36,7 +36,7 @@ This scripts need stuff like such:
 
 logout
 ```
-and 
+and `.xinitrc` as:
 ```
 #!/bin/sh
 :
