@@ -60,7 +60,7 @@ function no_item_found () {
 }
 
 function dummy_handle () {
-	read -t 0.1
+	read -t 1 dummy <&p
 }
 
 function barcode_listener () {
@@ -96,6 +96,7 @@ function barcode_listener () {
 		fi
 		item=""
 	fi
+	olduser="redraw"
 	trap barcode_listener USR1
 }
 

@@ -1,4 +1,3 @@
-# shellcheck disable=SC1071
 #!/bin/zsh
 
 # comannd amount user
