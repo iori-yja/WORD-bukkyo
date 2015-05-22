@@ -2,7 +2,7 @@
 #!/bin/zsh
 
 function post_slack () {
-	curl "${slackurl}$(echo "${1}"| nkf -wMQ | sed 's/=$//g' | tr '=' '%' | tr -d "\n")" &
+	curl "${slackurl}$(echo $"{1}"| nkf -wMQ | sed 's/=$//g' | tr = % | tr -d "\n")" &
 	echo posting to slack..
 }
 
