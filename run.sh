@@ -39,8 +39,8 @@ while true;do
 		sleep 10
 
 	else
-		dummy_username=$(echo "${fdump}" | grep "0040:0003:" | sed -e "s/^.*0040:0003:\([A-Z,0-9]*\)$/\1/"|./hex2bin|nkf -Sw)
-		dummy_userid=$(echo "${fdump}" | grep "0040:0000:" | sed -e "s/^.*0040:0000:\([A-Z,0-9]*\)$/\1/"|./hex2bin|nkf -Sw)
+		dummy_username=$(echo "${fdump}" | grep '0040:0003:' | sed -e 's/^.*0040:0003:\([A-Z,0-9]*\)$/\1/'|./hex2bin|nkf -Sw)
+		dummy_userid=$(echo "${fdump}" | grep '0040:0000:' | sed -e 's/^.*0040:0000:\([A-Z,0-9]*\)$/\1/'|./hex2bin|nkf -Sw)
 		dummy_user=$((dummy_userid / 100000 - 1000000000))
 		dummy_balance=$(get_balance "${dummy_user}")
 
