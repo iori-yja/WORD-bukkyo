@@ -24,7 +24,6 @@ while true;do
 		if [ "${olduser}" ]; then
 			olduser=""
 			sleep 0.3
-			kill -USR2 ${guicpid}
 			kill -USR2 "${guicpid}"
 		fi
 
