@@ -115,7 +115,7 @@ function check_itemprice () {
 
 function get_balance () {
 	USERDB="user.csv"
-	current=$(grep "${1}" "${USERDB}")
+	current=$(grep "${1}" ${USERDB})
 
 	if [ ! "${current}" ]; then
 		echo "残高: 0 BKD"
