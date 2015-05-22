@@ -1,5 +1,46 @@
 #!/bin/zsh
 
+function try_withdrawal () {
+	local price=`search_item $item`
+	local exit_status=$?
+	if [ $exit_status != 0 ]; then
+		no_item_found $guicpid $item $username
+		item=""
+	else
+		sudo ./withdrawal.sh "$price" "$user" "$username"
+		exit_status=$?
+		echo $exit_status
+		balance=`get_balance $user`
+		if [ $exit_status = 0 ]; then
+			kill -USR2 $guicpid
+			itemname=`get_itemname $item`
+			sleep 0.1
+			echo "$itemname, $username"
+			echo "Thank you!"
+			echo $balance
+			echo "$itemname, $username" >&p
+			echo "Thank you!" >&p
+			echo $balance >&p
+			post_slack "@maririso speech $username が $itemname を買いました"
+			kill -USR1 $guicpid
+			item=""
+		else
+			kill -USR2 $guicpid
+			itemname=`get_itemname $item`
+			sleep 0.1
+			echo "$itemname, $username"
+			echo $balance
+			echo "\"金が足りねえぞクソ\" Exception"
+			echo "$itemname, $username" >&p
+			echo "\"金が足りねえぞクソ\" Exception" >&p
+			echo $balance >&p
+			post_slack "@maririso speech $username はお金がなくて $itemname を買えませんでした"
+			kill -USR1 $guicpid
+			item=""
+		fi
+	fi
+}
+
 function post_slack () {
 	curl "$slackurl`echo $1| nkf -wMQ | sed 's/=$//g' | tr = % | tr -d "\n"`" &
 	echo posting to slack..
@@ -99,56 +140,6 @@ function search_item () {
 		exit 0
 	else
 		exit 1
-	fi
-}
-
-function try_withdrawal () {
-<<<<<<< HEAD
-	local price
-	local exit_status
-	price=$(search_item "${item}")
-	exit_status="${?}"
-	if [ "${exit_status}" != 0 ]; then
-		no_item_found "${guicpid}" "${item}" "${username}"
-=======
-	local price=`search_item $item`
-	local exit_status=$?
-	if [ $exit_status != 0 ]; then
-		no_item_found $guicpid $item $username
->>>>>>> parent of 1b87670... (^-^)b
-		item=""
-	else
-		sudo ./withdrawal.sh "$price" "$user" "$username"
-		exit_status=$?
-		echo $exit_status
-		balance=`get_balance $user`
-		if [ $exit_status = 0 ]; then
-			kill -USR2 $guicpid
-			itemname=`get_itemname $item`
-			sleep 0.1
-			echo "$itemname, $username"
-			echo "Thank you!"
-			echo $balance
-			echo "$itemname, $username" >&p
-			echo "Thank you!" >&p
-			echo $balance >&p
-			post_slack "@maririso speech $username が $itemname を買いました"
-			kill -USR1 $guicpid
-			item=""
-		else
-			kill -USR2 $guicpid
-			itemname=`get_itemname $item`
-			sleep 0.1
-			echo "$itemname, $username"
-			echo $balance
-			echo "\"金が足りねえぞクソ\" Exception"
-			echo "$itemname, $username" >&p
-			echo "\"金が足りねえぞクソ\" Exception" >&p
-			echo $balance >&p
-			post_slack "@maririso speech $username はお金がなくて $itemname を買えませんでした"
-			kill -USR1 $guicpid
-			item=""
-		fi
 	fi
 }
 
