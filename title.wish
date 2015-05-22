@@ -5,12 +5,14 @@ package require Tclx
 set background white
 
 proc writename {} {
+	eval exec "echo signal >> hoge"
 	gets stdin ::userid
 	gets stdin ::username
 	gets stdin ::balance
 }
 
 proc clearname {} {
+	eval exec "echo reshow >> hoge"
 	set ::userid ""
 	set ::username ""
 	set ::balance ""

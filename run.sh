@@ -20,9 +20,13 @@ while true;do
 	# Waiting for felica card
 	fdump=$(timeout 2 felica_dump)
 
-	if [ ! "$fdump" ]; then
-		kill -USR2 "${guicpid}"
-		olduser=""
+	if [ ! "${fdump}" ]; then
+		if [ "${olduser}" ]; then
+			olduser=""
+			sleep 0.3
+			kill -USR2 ${guicpid}
+			kill -USR2 "${guicpid}"
+		fi
 
 	elif [ "${fdump}" = "error" ]; then
 		msg="No card Reader found"
