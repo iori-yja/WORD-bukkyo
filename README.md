@@ -29,7 +29,7 @@ This scripts need stuff like such:
 
 ## Hint
 - If you have no slack integration, delete ```post_slack``` statement in routines.sh:26 and 39. (The actual line number may differ than those)
-- In many case, DB must be protected. Making `*.csv` and `withdrawal.sh` to be owned by another user may helpful. If user `hoge` owns these 3 files, you have to edit sudoer file with ```visudo``` and put a line like ```bukkyo ALL = NOPASSWD:/path/to/source/withdrawal.sh```.
+- In many case, DB must be protected. Making `*.csv` and `withdrawal.sh` to be owned by another user may helpful. If user `hoge` owns these 3 files, you have to edit sudoer file with ```visudo``` and put a line like ```bukkyo ALL=(hoge) NOPASSWD:/path/to/source/withdrawal.sh```.
 
 
 ![the GAMEN](https://raw.githubusercontent.com/iori-yja/WORD-bukkyo/master/img/screenshot.png)
