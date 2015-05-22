@@ -24,17 +24,15 @@ pack .c
 #canvas .f1.g -width 1280 -background #fff -borderwidth 0 -highlightthickness 0
 #.f1.g create image 1280 924 -image bg
 
-frame .f2 
+frame .f2
 label .l1 -textvariable userid -height 1 -font {{MMCedar} 24} -background #fff -borderwidth 0 -highlightthickness 0
 label .l2 -textvariable username -height 2 -font {{MMcedar} 32} -background #fff -borderwidth 0 -highlightthickness 0
 label .l3 -textvariable balance -height 2 -font {{MMcedar} 20} -background #fff -borderwidth 0 -highlightthickness 0
 pack .l1 .l2 .l3 -in .f2
 
-entry .barcode -textvariable item -validate key -validatecommand {
-	return [string is integer %P] && [expr ([string length %P] > 14) ? 0 : 1]
-}
+entry .barcode -textvariable item
 
-button .buttonexit -text "exit" -command "exec killall run_bukkyo.sh"
+button .buttonexit -text "exit" -command "exec killall xinit"
 bind .barcode <Key-Return> {
 	puts $item
 	exec kill -USR1 [lindex $argv 0]
@@ -56,12 +54,14 @@ set balance ""
 set dum ""
 
 proc writename {} {
+	eval exec "echo signal >> hoge"
 	gets stdin ::userid
 	gets stdin ::username
 	gets stdin ::balance
 }
 
 proc clearname {} {
+	eval exec "echo reshow >> hoge"
 	set ::userid ""
 	set ::username ""
 	set ::balance ""

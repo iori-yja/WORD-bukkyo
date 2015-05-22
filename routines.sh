@@ -1,8 +1,10 @@
 #!/bin/zsh
 
 function try_withdrawal () {
-	local price=`search_item $item`
-	local exit_status=$?
+	local price
+	local exit_status
+	price=`search_item $item`
+	exit_status=$?
 	if [ $exit_status != 0 ]; then
 		no_item_found $guicpid $item $username
 		item=""
@@ -21,8 +23,8 @@ function try_withdrawal () {
 			echo "$itemname, $username" >&p
 			echo "Thank you!" >&p
 			echo $balance >&p
-			post_slack "@maririso speech $username が $itemname を買いました"
 			kill -USR1 $guicpid
+			post_slack "@maririso speech $username が $itemname を買いました"
 			item=""
 		else
 			kill -USR2 $guicpid
@@ -34,8 +36,8 @@ function try_withdrawal () {
 			echo "$itemname, $username" >&p
 			echo "\"金が足りねえぞクソ\" Exception" >&p
 			echo $balance >&p
-			post_slack "@maririso speech $username はお金がなくて $itemname を買えませんでした"
 			kill -USR1 $guicpid
+			post_slack "@maririso speech $username はお金がなくて $itemname を買えませんでした"
 			item=""
 		fi
 	fi
