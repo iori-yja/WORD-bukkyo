@@ -1,4 +1,3 @@
-# shellcheck disable=SC1071
 #!/bin/zsh
 
 source ./routines.sh
