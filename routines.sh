@@ -66,13 +66,13 @@ function check_itemprice () {
 	echo "${3} のお値段は" >&p
 	echo "${2} BKD" >&p
 	echo "です" >&p
-	kill -USR1 "${1}"
+	kill -USR1 ${1}
 	sleep 3
 }
 
 function get_balance () {
 	USERDB="user.csv"
-	current=$(grep "${1}" "${USERDB}")
+	current=$(grep "${1}" ${USERDB})
 
 	if [ ! "${current}" ]; then
 		echo "残高: 0 BKD"
