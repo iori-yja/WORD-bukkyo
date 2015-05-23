@@ -60,13 +60,14 @@ function no_item_found () {
 }
 
 function dummy_handle () {
-	read -t 1 dummy <&p
 }
 
 function barcode_listener () {
 	trap dummy_handle USR1
+	kill -PIPE "${guicpid}"
 	item=""
-	read -t 1 item <&p
+	read item <&p
+	echo $item
 	item=$(echo "${item}"|sed '/^[0-9]*$/ p; d')
 
 	if [ ! "$item" ]; then
@@ -96,7 +97,6 @@ function barcode_listener () {
 		fi
 		item=""
 	fi
-	olduser="redraw"
 	trap barcode_listener USR1
 }
 

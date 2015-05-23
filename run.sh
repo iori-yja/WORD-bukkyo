@@ -56,6 +56,7 @@ while true;do
 			echo "${username}" >&p
 			echo "${user}" >&p
 			echo "${balance}" >&p
+			sleep 0.3
 			kill -USR1 "${guicpid}"
 			olduser="${user}"
 		fi
