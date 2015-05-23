@@ -17,26 +17,25 @@ function try_withdrawal () {
 			kill -USR2 "${guicpid}"
 			itemname=$(get_itemname "${item}")
 			sleep 0.1
-			echo "${itemname}, ${username}"
+			echo "${username}: ${balance}"
 			echo "Thank you!"
-			echo "${balance}"
-			echo "${itemname}, ${username}" >&p
+			echo "${itemname}(${price}BKD)"
+			echo "${username}: $(expr \( ${balance} \) + \( ${price} \))BKD -> ${balance}BKD" >&p
 			echo "Thank you!" >&p
-			echo "${balance}" >&p
-			post_slack "@maririso speech ${username} が ${itemname} を買いました"
+			echo "${itemname}(${price}BKD)" >&p
+#			post_slack "@maririso speech ${username} が ${itemname} を買いました"
 			kill -USR1 "${guicpid}"
 			item=""
 		else
 			kill -USR2 "${guicpid}"
 			itemname=$(get_itemname "${item}")
 			sleep 0.1
-			echo "${itemname}, ${username}"
-			echo "${balance}"
-			echo "\"金が足りねえぞクソ\" Exception"
-			echo "${itemname}, ${username}" >&p
-			echo "\"金が足りねえぞクソ\" Exception" >&p
-			echo "${balance}" >&p
-			post_slack "@maririso speech ${username} はお金がなくて ${itemname} を買えませんでした"
+			echo "${username}: ${balance}BKD"
+			echo "\"金が足りねえぞクソ\""
+			echo "${username}: ${balance}BKD" >&p
+			echo "\"金が足りねえぞクソ\"" >&p
+			echo "${itemname}(${price}BKD)" >&p
+			#post_slack "@maririso speech ${username} はお金がなくて ${itemname} を買えませんでした"
 			kill -USR1 "${guicpid}"
 			item=""
 		fi
@@ -56,7 +55,11 @@ function no_item_found () {
 	echo "ありゃりゃ？商品が見つからないよ？" >&p
 	echo "配給担当までお問い合わせを" >&p
 	kill -USR1 "${1}"
-	sleep 3
+	sleep 2
+}
+
+function force_redraw () {
+	redraw="redraw"
 }
 
 function dummy_handle () {
@@ -97,6 +100,7 @@ function barcode_listener () {
 		fi
 		item=""
 	fi
+	eval "sleep 3; kill -USR2 $$" &
 	trap barcode_listener USR1
 }
 
@@ -118,10 +122,10 @@ function get_balance () {
 	current=$(grep "${1}" ${USERDB})
 
 	if [ ! "${current}" ]; then
-		echo "残高: 0 BKD"
+		echo 0
 	else
 		balance=$(echo "${current}" | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' -e '{print $4}'|tail -1)
-		echo "残高: "${balance}" BKD"
+		echo "${balance}"
 	fi
 }
 

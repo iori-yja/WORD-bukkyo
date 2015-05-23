@@ -13,6 +13,7 @@ echo "${guicpid}"
 
 slackurl=$(grep "slackurl:" ../bukkyo.conf| head -1 |awk '{print $2}')
 trap barcode_listener USR1
+trap force_redraw USR2
 
 sleep 1
 
@@ -21,10 +22,12 @@ while true;do
 	fdump=$(timeout 2 felica_dump)
 
 	if [ ! "${fdump}" ]; then
-		if [ "${olduser}" ]; then
+		if [ "${redraw}" ] || [ "${olduser}" ]; then
 			olduser=""
+			killall play_music.sh
 			sleep 0.3
 			kill -USR2 "${guicpid}"
+			redraw=""
 		fi
 
 	elif [ "${fdump}" = "error" ]; then
@@ -48,17 +51,21 @@ while true;do
 		user="${dummy_user}"
 		balance="${dummy_balance}"
 
-		if [ "${olduser}" != "${user}" ]; then
+		if [ "${redraw}" ] || [ "${olduser}" != "${user}" ]; then
 			echo "Card detected!"
-			echo "${username}"
+			if [ ! "${redraw}" ]; then
+				./play_music.sh &
+			fi
 			echo "${user}"
+			echo "${username}"
 			echo "${balance}"
-			echo "${username}" >&p
 			echo "${user}" >&p
-			echo "${balance}" >&p
+			echo "${username}" >&p
+			echo "残高: ${balance}BKD" >&p
 			sleep 0.3
 			kill -USR1 "${guicpid}"
 			olduser="${user}"
+			redraw=""
 		fi
 	fi
 

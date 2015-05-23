@@ -9,13 +9,13 @@ function add_user () {
 }
 
 USERDB="user.csv"
-current=$(grep "${2}" "${USERDB}")
+current=$(grep "${2}," "${USERDB}")
 AWKOPT=""
 
 echo "${current}"
 if [ ! "${current}" ]; then
 	add_user "${2}" "${3}"
-	current=$(grep "${2}" "${USERDB}")
+	current=$(grep "${2}," "${USERDB}")
 fi
 
 balance=$(echo "${current}" | gawk -v FPAT='([^,]+)|(\"[^\"]+\")' -e '{print $4}')
